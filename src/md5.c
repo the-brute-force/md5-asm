@@ -62,7 +62,7 @@ void MD5_Update(MD5_CTX* const context, const void* const data, size_t length)
 
 void MD5_Final(uint8_t digest[16], MD5_CTX* const context)
 {
-    if (context == NULL)
+    if (context == NULL || digest == NULL)
         return;
 
     // Something is seriously wrong if this executes
@@ -182,6 +182,9 @@ void MD5_Final(uint8_t digest[16], MD5_CTX* const context)
 
 static void MD5_Block(uint32_t state[4], const uint32_t input[16])
 {
+    if (state == NULL || input == NULL)
+        return;
+
     uint32_t A = state[0];
     uint32_t B = state[1];
     uint32_t C = state[2];
