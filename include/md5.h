@@ -16,9 +16,9 @@ typedef struct {
     } buffer __attribute__((aligned(4)));
 } MD5_CTX;
 
-void MD5_Init(MD5_CTX* const context);
-void MD5_Update(MD5_CTX* const context, const void* const data, size_t length);
-void MD5_Final(uint8_t digest[16], MD5_CTX* const context);
+void MD5_Init(MD5_CTX* const restrict context);
+void MD5_Update(MD5_CTX* const restrict context, const void* const restrict data, size_t length);
+void MD5_Final(uint8_t* const restrict digest, MD5_CTX* const restrict context);
 
 #ifdef __cplusplus
 }

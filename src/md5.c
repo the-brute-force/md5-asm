@@ -5,7 +5,7 @@
 #include "md5.h"
 #include <string.h>
 
-void MD5_Init(MD5_CTX* const context)
+void MD5_Init(MD5_CTX* const restrict context)
 {
     if (context == NULL)
         return;
@@ -20,9 +20,9 @@ void MD5_Init(MD5_CTX* const context)
     memset(context->buffer.bytes, 0, 64);
 }
 
-static void MD5_Block(uint32_t[4], const uint32_t[16]);
+static void MD5_Block(uint32_t* const restrict, const uint32_t* const restrict);
 
-void MD5_Update(MD5_CTX* const context, const void* const data, size_t length)
+void MD5_Update(MD5_CTX* const restrict context, const void* const restrict data, size_t length)
 {
     if (context == NULL || data == NULL || length == 0)
         return;
@@ -60,9 +60,9 @@ void MD5_Update(MD5_CTX* const context, const void* const data, size_t length)
     }
 }
 
-void MD5_Final(uint8_t digest[16], MD5_CTX* const context)
+void MD5_Final(uint8_t* const restrict digest, MD5_CTX* const restrict context)
 {
-    if (context == NULL || digest == NULL)
+    if (digest == NULL || context == NULL)
         return;
 
     // Something is seriously wrong if this executes
@@ -180,7 +180,7 @@ void MD5_Final(uint8_t digest[16], MD5_CTX* const context)
     ROUND_I(C, D, A, B, "%[input" STR(i2) "]", k2, 15) \
     ROUND_I(B, C, D, A, "%[input" STR(i3) "]", k3, 21)
 
-static void MD5_Block(uint32_t state[4], const uint32_t input[16])
+static void MD5_Block(uint32_t* const restrict state, const uint32_t* const restrict input)
 {
     if (state == NULL || input == NULL)
         return;
